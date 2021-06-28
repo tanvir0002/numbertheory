@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define mx 100000
+long long int prime[mx];
+long long int prime_num[mx];
+void SieveOfEratosthenes()
+{
+    memset(prime, 0, sizeof(prime));
+
+    for(int i=4; i<=mx; i+=2)
+        prime[i]=1;
+
+    for(int i=2; i*i<=mx; i++)
+    {
+        if(prime[i]==0)
+        {
+            for(int j=i*i; j<=mx; j+=i)
+            {
+                prime[j]=1;
+            }
+        }
+    }
+    int j=0;
+    for(int i=2; i<=mx; i++)
+    {
+        if(prime[i]==0)
+        {
+            prime_num[j++]=i;
+        }
+    }
+
+    //cout<<j<<endl;
+
+}
+
+int main()
+{
+    SieveOfEratosthenes();
+    long long int n;
+    int tc;
+    cin>>tc;
+    while(tc--)
+    {
+        cin>>n;
+        long long int mod=1000000007,r=1;
+
+      for(int i=0;prime_num[i]<=n;i++)
+      {
+          long long  int p=prime_num[i];
+           long long int exp=0;
+           while(p<=n)
+           {
+                exp+=(n/p);
+                p*=prime_num[i];
+           }
+           r=(r*(exp+1))%mod;
+           r%=mod;
+      }
+      cout<<r<<endl;
+
+    }
+
+    return 0;
+}
